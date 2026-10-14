@@ -88,4 +88,4 @@ Returns the predicted alert, the probability of each class, and the probability 
 Add population-density and distance-to-coast data, try probability calibration, merge orange and red into one "high" class, and monitor performance as new events arrive. This is a learning project, not a real early-warning system.
 
 ## Author
-Darshani Mutyal · [LinkedIn](https://www.linkedin.com/in/darshanimutyal-kth) · darshanimutyal01@gmail.com
+Darshani Mutyal · [LinkedIn](https://www.linkedin.com/in/darshani-mutyal-kth/) · darshanimutyal01@gmail.com
