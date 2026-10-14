@@ -16,7 +16,7 @@ Python, pandas, NumPy, scikit-learn, matplotlib, seaborn, Flask, Jupyter
 
 ## Approach
 1. **Cleaning:** kept all large-magnitude events (no outlier deletion), fixed timestamp parsing, removed non-earthquake events.
-2. **Feature engineering:** `region` extracted from the place name (rare regions grouped as `Other`) as a proxy for population and building vulnerability.
+2. **Feature engineering:** extracted a region label from the earthquake place name and grouped rare regions into `Other`. Region provides geographic context but does not directly measure population exposure or building vulnerability.
 3. **EDA:** alert rate by magnitude, depth and region; global map; events per year.
 4. **Models compared** with stratified 5-fold cross-validation: Logistic Regression, KNN, SVM, Random Forest, Gradient Boosting, each against an "always green" baseline. Class weights used to handle imbalance.
 5. **Tuning:** `RandomizedSearchCV` (macro-F1) on events up to 2019, tested on 2020–2024.
@@ -63,18 +63,88 @@ My first version (built during my internship) reported 96.2% accuracy with Rando
 └── requirements.txt
 ```
 
-## How to run
+## ## How to Run
+
+### 1. Clone the Repository
+
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/Darshani0108/earthquake-alert-prediction.git
+cd earthquake-alert-prediction
+```
 
-# explore the analysis
-jupyter notebook notebooks/Earthquake_Alert_Prediction.ipynb
+### 2. Create a Virtual Environment
 
-# (optional) retrain and re-save the model, e.g. after a scikit-learn version warning
-python src/train_model.py
+```bash
+python -m venv .venv
+```
 
-# start the app, then open http://127.0.0.1:5000
+Activate it:
+
+**Windows (PowerShell)**
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+**macOS / Linux**
+
+```bash
+source .venv/bin/activate
+```
+
+### 3. Install Dependencies
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### 4. Run the Flask Application
+
+```bash
 python app/app.py
+```
+
+Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your browser.
+
+### 5. Explore the Jupyter Notebook
+
+Open `notebooks/Earthquake_Alert_Prediction.ipynb` in Jupyter Notebook or JupyterLab to explore data cleaning, visualizations, model comparison, and evaluation.
+
+### 6. Retrain the Model (Optional)
+
+```bash
+python src/train_model.py
+```
+
+Run this if you want to retrain the model. Ensure the dataset and required dependencies are available.
+
+### API Example
+
+With the Flask application running, send a POST request to the prediction endpoint:
+
+```bash
+curl -X POST http://127.0.0.1:5000/predict \
+  -H "Content-Type: application/json" \
+  -d '{"latitude": 35.7, "longitude": 139.7, "depth": 10, "mag": 7.1, "region": "Japan"}'
+```
+
+The API returns the predicted alert class and the probabilities provided by the model, including the probability of any alert if exposed by the endpoint.
+
+
+
+Run this only if you want to retrain the model and have the required dataset and dependencies available.
+
+### API Example
+
+Send a POST request to the prediction endpoint:
+
+```bash
+curl -X POST http://127.0.0.1:5000/predict \
+  -H "Content-Type: application/json" \
+  -d "{\"latitude\": 35.7, \"longitude\": 139.7, \"depth\": 10, \"mag\": 7.1, \"region\": \"Japan\"}"
+```
+
+The API returns the predicted alert class and the available class probabilities.
 ```
 
 API example:
