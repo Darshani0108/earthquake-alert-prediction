@@ -63,7 +63,7 @@ My first version (built during my internship) reported 96.2% accuracy with Rando
 └── requirements.txt
 ```
 
-## ## How to Run
+## How to Run
 
 ### 1. Clone the Repository
 
